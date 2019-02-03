@@ -49,7 +49,14 @@ public class JPAConfig {
 
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(Config.get(CONF_DB_SECTION, "driver.class.name"));
-        dataSource.setUrl("jdbc:" + type + "://" + ip + ":" + port + "/" + dbName);
+
+        if (type.equals("sqlite")) {
+            String fileName = Config.get(CONF_DB_SECTION, "sqlite_file");
+            dataSource.setUrl("jdbc:sqlite:" + fileName + "/" + dbName);
+        } else {
+            dataSource.setUrl("jdbc:" + type + "://" + ip + ":" + port + "/" + dbName);
+        }
+
         dataSource.setUsername(user);
         dataSource.setPassword(password);
         return dataSource;
