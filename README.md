@@ -20,5 +20,30 @@ A simple project management tool build in java, specialized for building project
   
 ## Setup
 
-All relevant 
-1. First, create the database configuration in file **config/runtime/**
+All relevant configuration files are placed in directory **config/runtime**.
+First, create the database configuration in file **config/runtime/** like this:
+```ini
+[Database]
+; database type, e.q. "mysql", "postgresql" or "sqlite"
+type=mysql
+
+; the database driver class (for SQLite: org.sqlite.JDBC)
+driver.class.name=com.mysql.jdbc.Driver
+
+[MySQL]
+host=<MYSQL_IP>
+port=3306
+user=<MYSQL_USER>
+password=<MYSQL_PASSWORD>
+database=<MYSQL_DATABASE>
+prefix=pmt_
+
+; hibernate configuration (only change this, if you know, what you do)
+hibernate.hbm2ddl.auto=update
+
+;hibernate.dialect=org.hibernate.dialect.PostgreSQL95Dialect
+
+
+# Allows Hibernate to generate SQL optimized for a particular DBMS (sqlite: "org.hibernate.dialect.SQLiteDialect")
+hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
+```
