@@ -9,7 +9,7 @@ public class Error404Controller {
 
     @RequestMapping(value = "/errors/error404", method = {RequestMethod.GET, RequestMethod.POST})
     public String error404 () {
-        return "error404";
+        return "errors/error404";
     }
 
 }
