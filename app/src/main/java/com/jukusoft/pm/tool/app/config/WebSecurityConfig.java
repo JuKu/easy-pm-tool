@@ -11,6 +11,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
+        //session management
+        /*http
+                .sessionManagement()
+                .invalidSessionUrl("/sessionInvalid");*/
+
         //protect all pages from unauthentificated users
         http
                 .authorizeRequests()
@@ -20,6 +25,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //lock out any unauthentificated users from any other page
                 .anyRequest()
                 .authenticated();
+
+        http
+                .formLogin()
+                //.loginPage("/login")
+                .loginProcessingUrl("/perform_login")
+                .defaultSuccessUrl("/homepage.html", true);
 
         //login
         /*http

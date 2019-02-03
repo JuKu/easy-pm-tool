@@ -387,3 +387,5 @@ gradle-app.setting
 
 config/runtime/*
 !config/runtime/*example*
+
+!config/runtime/cache.cfg
