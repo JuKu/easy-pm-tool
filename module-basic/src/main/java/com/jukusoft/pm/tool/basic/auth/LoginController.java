@@ -18,8 +18,8 @@ public class LoginController {
 
     protected static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
-   @RequestMapping(path = "/login", method = {RequestMethod.GET, RequestMethod.POST})
-    public String loginPage (HttpServletRequest request, HttpServletResponse response, CsrfToken csrfToken, Model model, @RequestParam("error") Optional<String> errorOpt) {
+    @RequestMapping(path = "/login", method = {RequestMethod.GET, RequestMethod.POST})
+    public String loginPage (HttpServletRequest request, CsrfToken csrfToken, Model model, @RequestParam("error") Optional<String> errorOpt) {
         //model.addAttribute("_csrf", csrfToken);
 
         model.addAttribute("form_action", "/perform_login");
