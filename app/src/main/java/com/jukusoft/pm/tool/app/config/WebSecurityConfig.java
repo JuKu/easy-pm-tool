@@ -1,9 +1,12 @@
 package com.jukusoft.pm.tool.app.config;
 
+import com.jukusoft.pm.tool.basic.error.CustomAccessDeniedHandler;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -20,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 //allow access to / and /login to any user (also unauthentificated ones)
-                .antMatchers("/", "/login", "/test", "/actuator", "/actuator/*", "/files/public/**")
+                .antMatchers("/", "/login", "/test", "/actuator", "/actuator/*", "/files/public/**", "/res/public/**", "/errors/*", "/error", "test2")
                 .permitAll()
                 //lock out any unauthentificated users from any other page
                 .anyRequest()
@@ -49,6 +52,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
                 .permitAll();
+
+        //exception handling
+        /*http
+                .exceptionHandling()
+                .accessDeniedPage("/errors/error403");*/
+    }
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler(){
+        return new CustomAccessDeniedHandler();
     }
 
     /*@Bean
