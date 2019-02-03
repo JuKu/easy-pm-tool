@@ -33,16 +33,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/perform_login")
+                .failureForwardUrl("/login?error=true")
                 .defaultSuccessUrl("/home", true);
-
-        //login
-        /*http
-                .formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/perform_login")
-                .defaultSuccessUrl("/home", true);
-                //.failureUrl("/login.html?error=true")
-                //.failureHandler(authenticationFailureHandler())*/
 
         //configure logout page, see also https://www.baeldung.com/spring-security-logout
         http
