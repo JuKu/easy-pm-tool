@@ -382,3 +382,8 @@ gradle-app.setting
 **/build/
 
 # End of https://www.gitignore.io/api/java,linux,macos,maven,gradle,windows,eclipse,netbeans,intellij,intellij+all,intellij+iml
+
+### Added ###
+
+config/runtime/*
+!config/runtime/*example*
