@@ -31,9 +31,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .formLogin()
-                //.loginPage("/login")
+                .loginPage("/login")
                 .loginProcessingUrl("/perform_login")
-                .defaultSuccessUrl("/homepage.html", true);
+                .defaultSuccessUrl("/home", true);
 
         //login
         /*http
