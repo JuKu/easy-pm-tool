@@ -26,22 +26,7 @@ public class LoginController {
         model.addAttribute("csrf_parameter_name", csrfToken.getParameterName());
         model.addAttribute("csrf_token", csrfToken.getToken());
 
-        boolean showError = request.getRequestURL().toString().contains("?error");
-
-        logger.info("request URL: " + request.getRequestURL().toString());
-        logger.info("request URI: " + request.getRequestURI());
-
-        logger.info("error is set: " + errorOpt.isPresent());
-
-        if (errorOpt.isPresent()) {
-            logger.info("error value: " + errorOpt.get());
-        }
-
-        if (showError) {
-            logger.debug("show error, because login credentials are wrong.");
-        }
-
-        showError = errorOpt.isPresent();
+        boolean showError = errorOpt.isPresent();
         model.addAttribute("is_error", showError);
 
         return "login";
