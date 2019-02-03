@@ -30,14 +30,17 @@ public class HazelcastConfig {
         com.hazelcast.config.Config config = new com.hazelcast.config.Config();
         config.getGroupConfig().setName(groupName).setPassword(groupPassword);
 
-        TcpIpConfig ipc = config.getNetworkConfig().getJoin().getTcpIpConfig();
-        ipc.setEnabled(true);
+        if (!Config.getBool(CONF_HZ_SECTION, "standalone")) {
+            TcpIpConfig ipc = config.getNetworkConfig().getJoin().getTcpIpConfig();
+            ipc.setEnabled(true);
 
-        for (String member : members) {
-            ipc.addMember(member);
+            for (String member : members) {
+                ipc.addMember(member);
+            }
+
+            config.getNetworkConfig().getJoin().getMulticastConfig().setEnabled(false);
         }
 
-        config.getNetworkConfig().getJoin().getMulticastConfig().setEnabled(false);
         config.setInstanceName(instanceName);
 
         return Hazelcast.newHazelcastInstance(config);
