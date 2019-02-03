@@ -66,7 +66,7 @@ public class ConfigTest {
 
     @Test (expected = IllegalArgumentException.class)
     public void testLoadDirWithFile () throws IOException {
-        Config.loadDir(new File("../config/runtime/database.cfg"));
+        Config.loadDir(new File("../config/travis/travis.mysql.cfg"));
     }
 
     @Test
