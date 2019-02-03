@@ -1,21 +1,12 @@
 package com.jukusoft.pm.tool.app.config;
 
 import com.jukusoft.pm.tool.def.config.Config;
-import com.samskivert.mustache.Mustache;
-import org.springframework.boot.autoconfigure.mustache.MustacheEnvironmentCollector;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.http.CacheControl;
-import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.EncodedResourceResolver;
-import org.springframework.web.servlet.resource.GzipResourceResolver;
-import org.springframework.web.servlet.resource.PathResourceResolver;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.ResourceBundleViewResolver;
 
 import java.util.concurrent.TimeUnit;
 
