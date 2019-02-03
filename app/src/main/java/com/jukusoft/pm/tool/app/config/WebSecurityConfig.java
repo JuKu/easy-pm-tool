@@ -15,11 +15,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 //allow access to / and /login to any user (also unauthentificated ones)
-                .antMatchers("/", "/login")
+                .antMatchers("/", "/login", "/test", "/actuator", "/actuator/*")
                 .permitAll()
                 //lock out any unauthentificated users from any other page
                 .anyRequest()
                 .authenticated();
+
+        //login
+        /*http
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/perform_login")
+                .defaultSuccessUrl("/home", true);
+                //.failureUrl("/login.html?error=true")
+                //.failureHandler(authenticationFailureHandler())*/
 
         //configure logout page, see also https://www.baeldung.com/spring-security-logout
         http

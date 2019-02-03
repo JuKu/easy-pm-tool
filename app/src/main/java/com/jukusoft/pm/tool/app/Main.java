@@ -8,7 +8,9 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
@@ -20,6 +22,8 @@ import java.io.IOException;
 @EnableAutoConfiguration
 @EntityScan("com.jukusoft.pm.tool")
 @EnableJpaRepositories("com.jukusoft.pm.tool")
+@ComponentScan(basePackages = {"com.jukusoft.pm.tool", "com.jukusoft.pm.tool.basic"})
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class Main {
 
     protected static Logger logger = LoggerFactory.getLogger(Main.class);
