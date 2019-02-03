@@ -19,11 +19,11 @@ public class ErrorControllerImpl implements ErrorController {
             Integer statusCode = Integer.valueOf(status.toString());
 
             if(statusCode == HttpStatus.NOT_FOUND.value()) {
-                return "/errors/error404";
+                return "redirect:/errors/error404";
             } else if(statusCode == HttpStatus.FORBIDDEN.value()) {
-                return "/errors/error403";
+                return "redirect:/errors/error403";
             } else if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-                return "/errors/error500";
+                return "redirect:/errors/error500";
             }
         }
 
