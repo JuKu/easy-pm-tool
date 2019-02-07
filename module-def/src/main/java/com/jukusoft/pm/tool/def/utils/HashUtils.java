@@ -28,6 +28,7 @@ import java.util.Random;
 public class HashUtils {
 
     protected static final Logger logger = LoggerFactory.getLogger(HashUtils.class);
+    protected static final Random random = new Random();
 
     protected HashUtils() {
         //
@@ -92,7 +93,6 @@ public class HashUtils {
             mdSha1 = MessageDigest.getInstance("SHA-512");
         } catch (NoSuchAlgorithmException e1) {
             logger.error("NoSuchAlgorithmException: ", e1);
-            e1.printStackTrace();
 
             throw new IllegalStateException("encryption algorithm isn't available: ", e1);
         }
@@ -131,7 +131,6 @@ public class HashUtils {
 
         } catch (NoSuchAlgorithmException e) {
             logger.error("NoSuchAlgorithmException: ", e);
-            e.printStackTrace();
         }
 
         return md5Hash.toString();
@@ -139,8 +138,6 @@ public class HashUtils {
 
     public static String generateSalt () {
         byte[] salt = new byte[18];
-
-        Random random = new Random();
         random.nextBytes(salt);
 
         return Base64Utils.encodeToString(salt);
