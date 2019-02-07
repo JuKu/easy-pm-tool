@@ -3,6 +3,7 @@ package com.jukusoft.pm.tool.def.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jukusoft.pm.tool.def.model.auth.AuthentificationMethod;
 import com.jukusoft.pm.tool.def.utils.HashUtils;
+import com.jukusoft.pm.tool.def.utils.StringUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.CreationTimestamp;
@@ -55,6 +56,10 @@ public class User {
     private Date registered;
 
     public User (String username, String password, String email) {
+        StringUtils.requireNonEmptyString(username);
+        StringUtils.requireNonEmptyString(password);
+        StringUtils.requireNonEmptyString(email);
+
         this.username = username;
         this.email = email;
         this.authMethod = AuthentificationMethod.DATABASE;
