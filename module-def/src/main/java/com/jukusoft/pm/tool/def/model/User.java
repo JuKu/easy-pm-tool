@@ -6,6 +6,7 @@ import com.jukusoft.pm.tool.def.utils.HashUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -15,8 +16,10 @@ import java.util.Date;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Entity
 @Table(name = "users", indexes = {
-        @Index(columnList = "username", name = "username_idx", unique = true),
-        @Index(columnList = "email", name = "email_idx")
+        //@Index(columnList = "username", name = "username_idx", unique = true),
+        @Index(columnList = "email", name = "email_idx"),
+}, uniqueConstraints = {
+        @UniqueConstraint(columnNames = "username", name = "username_uqn")
 })
 public class User {
 

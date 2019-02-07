@@ -30,7 +30,7 @@ public class Config {
     public static void load (File file, boolean skipExampleConfig) throws IOException {
         Objects.requireNonNull(file, "config file cannot be null.");
 
-        logger.info( "Load Config: " + file.getAbsolutePath().replace("\\", "/"));
+        logger.info( "Load Config: {}", file.getAbsolutePath().replace("\\", "/"));
 
         if (!file.exists()) {
             throw new IllegalStateException("config file '" + file.getAbsolutePath() + "' doesn't exists!");
@@ -42,7 +42,7 @@ public class Config {
 
         //skip files with ".example." and "travis" in filename
         if ((file.getName().contains(".example.") || file.getName().contains("travis")) && skipExampleConfig) {
-            logger.debug( "skip example config file: " + file.getAbsolutePath());
+            logger.debug( "skip example config file: {}", file.getAbsolutePath());
             return;
         }
 
@@ -84,7 +84,7 @@ public class Config {
             //check file ending
             if (!file.getName().endsWith(".cfg") && !file.getName().endsWith(".ini")) {
                 //its not a config file, so skip this file instance
-                logger.debug( "skip file: " + file.getAbsolutePath());
+                logger.debug( "skip file: {}", file.getAbsolutePath());
                 continue;
             }
 
