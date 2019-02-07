@@ -12,12 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 import java.util.Optional;
 
-@Service
+
+@Component
 public class DatabaseAuthProvider implements AuthProvider {
 
     protected static final Logger logger = LoggerFactory.getLogger(DatabaseAuthProvider.class);
@@ -27,6 +28,8 @@ public class DatabaseAuthProvider implements AuthProvider {
 
     @Override
     public AuthUser authenticate(String username, String password) {
+        Objects.requireNonNull(userDAO);
+
         //find user
         Optional<User> userOptional = userDAO.findByUsername(username);
         Objects.requireNonNull(userOptional);

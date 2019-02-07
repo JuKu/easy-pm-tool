@@ -5,23 +5,27 @@ import com.jukusoft.pm.tool.def.auth.AuthUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import javax.annotation.PostConstruct;
 import java.util.Collections;
 import java.util.List;
-import java.util.ServiceLoader;
+import java.util.Objects;
 
 @Service
 public class AuthServiceSPI implements InitializingBean {
 
     protected static final Logger logger = LoggerFactory.getLogger(AuthServiceSPI.class);
 
-    protected final List<AuthProvider> authProviderList = new ArrayList<>();
+    @Autowired
+    protected List<AuthProvider> authProviderList;
 
     public AuthUser authenticate(String username, String password) {
+        Objects.requireNonNull(this.authProviderList);
+
         for (AuthProvider authProvider : authProviderList) {
             try {
                 logger.debug("try authentification provider for user '{}': {}", username, authProvider.getClass().getSimpleName());
@@ -47,25 +51,13 @@ public class AuthServiceSPI implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        //find all auth providers in classpath
-        ServiceLoader<AuthProvider> authProviders = ServiceLoader.load(AuthProvider.class);
-
-        logger.info("search for auth providers in classpath...");
-        int counter = 0;
-
-        for (AuthProvider provider : authProviders) {
-            logger.info("auth provider found: {}", provider.getClass().getCanonicalName());
-            this.authProviderList.add(provider);
-
-            counter++;
-        }
-
-        logger.info("{} auth providers found in classpath.", counter);
+        logger.info("init AuthServiceSPI");
+        Objects.requireNonNull(this.authProviderList);
 
         //sort list by auth provider priority (e.q. that ldap login will be executed before database login)
         Collections.sort(this.authProviderList);
 
-        if (counter == 0) {
+        if (this.authProviderList.isEmpty()) {
             throw new IllegalStateException("No auth providers found in classpath!");
         }
     }
