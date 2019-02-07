@@ -22,7 +22,7 @@ import java.io.IOException;
 @EnableAutoConfiguration
 @EntityScan("com.jukusoft.pm.tool")
 @EnableJpaRepositories("com.jukusoft.pm.tool")
-@ComponentScan(basePackages = {"com.jukusoft.pm.tool", "com.jukusoft.pm.tool.basic"})
+@ComponentScan(basePackages = {"com.jukusoft.pm.tool", "com.jukusoft.pm.tool.basic", "com.jukusoft.pm.tool.def"})
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class Main {
 

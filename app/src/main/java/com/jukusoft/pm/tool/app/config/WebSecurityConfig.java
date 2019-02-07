@@ -3,6 +3,7 @@ package com.jukusoft.pm.tool.app.config;
 import com.jukusoft.pm.tool.basic.error.CustomAccessDeniedHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -54,6 +55,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public AccessDeniedHandler accessDeniedHandler(){
         return new CustomAccessDeniedHandler();
+    }
+
+    @Override
+    public void configure(AuthenticationManagerBuilder auth)
+            throws Exception {
+        /*auth.jdbcAuthentication()
+        auth.ldapAuthentication()
+        auth.authenticationProvider(customAuthProvider);*/
+        /*auth.inMemoryAuthentication()
+                .withUser("memuser")
+                .password(encoder().encode("pass"))
+                .roles("USER");*/
     }
 
     /*@Bean
