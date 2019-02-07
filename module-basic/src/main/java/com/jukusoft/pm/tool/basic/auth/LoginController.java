@@ -2,6 +2,7 @@ package com.jukusoft.pm.tool.basic.auth;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +20,12 @@ public class LoginController {
     protected static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @RequestMapping(path = "/login", method = {RequestMethod.GET, RequestMethod.POST})
-    public String loginPage (HttpServletRequest request, CsrfToken csrfToken, Model model, @RequestParam("error") Optional<String> errorOpt) {
+    public String loginPage (HttpServletRequest request, CsrfToken csrfToken, Model model, Authentication authentication, @RequestParam("error") Optional<String> errorOpt) {
+        if (authentication != null  && authentication.isAuthenticated()) {
+            logger.info("user '{}' is already authentificated!", authentication.getName());
+            return "redirect:/home";
+        }
+
         //model.addAttribute("_csrf", csrfToken);
 
         model.addAttribute("form_action", "/perform_login");
