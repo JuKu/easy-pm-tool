@@ -2,11 +2,15 @@ package com.jukusoft.pm.tool.def.dao;
 
 import com.jukusoft.pm.tool.def.model.User;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface UserDAO extends PagingAndSortingRepository<User, Integer> {
 
     @Override
@@ -25,7 +29,8 @@ public interface UserDAO extends PagingAndSortingRepository<User, Integer> {
      */
     Optional<User> findById(int userID);
 
-    Optional<User> findByUsername(String username);
+    @Query("FROM com.jukusoft.pm.tool.def.model.User u where u.username = :name")
+    Optional<User> findByUsername(@Param("name") String username);
 
     @Override
     public long count();

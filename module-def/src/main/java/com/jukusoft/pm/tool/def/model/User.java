@@ -86,4 +86,32 @@ public class User {
         this.passwordHash = HashUtils.computePasswordSHAHash(salt + passwordHash);
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Date getRegistered() {
+        return registered;
+    }
+
+    public AuthentificationMethod getAuthMethod() {
+        return authMethod;
+    }
+
 }

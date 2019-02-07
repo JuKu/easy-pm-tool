@@ -23,5 +23,20 @@ public class StringUtils {
         StringUtils.requireNonEmptyString(str, "string");
     }
 
+    public static void requireNonEmptyStringOrThrowException (String str, RuntimeException e) {
+        requireNonEmptyStringOrThrowException(str, e, e);
+    }
+
+    public static void requireNonEmptyStringOrThrowException (String str, RuntimeException exceptionOnNull, RuntimeException exceptionOnEmpty) {
+        try {
+            requireNonEmptyString(str);
+        } catch (NullPointerException e1) {
+            exceptionOnNull.setStackTrace(e1.getStackTrace());
+            throw exceptionOnNull;
+        } catch (IllegalArgumentException e1) {
+            exceptionOnEmpty.setStackTrace(e1.getStackTrace());
+            throw exceptionOnEmpty;
+        }
+    }
 
 }

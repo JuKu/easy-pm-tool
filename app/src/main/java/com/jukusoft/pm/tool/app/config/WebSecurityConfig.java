@@ -1,6 +1,8 @@
 package com.jukusoft.pm.tool.app.config;
 
+import com.jukusoft.pm.tool.basic.auth.CustomAuthProvider;
 import com.jukusoft.pm.tool.basic.error.CustomAccessDeniedHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -12,6 +14,9 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    protected CustomAuthProvider authProvider;
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
@@ -60,6 +65,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(AuthenticationManagerBuilder auth)
             throws Exception {
+        //register own custom authentification provider
+        auth.authenticationProvider(authProvider);
+
         /*auth.jdbcAuthentication()
         auth.ldapAuthentication()
         auth.authenticationProvider(customAuthProvider);*/
