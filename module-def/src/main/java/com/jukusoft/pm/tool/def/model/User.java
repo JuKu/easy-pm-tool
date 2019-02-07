@@ -15,7 +15,7 @@ import java.util.Date;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Entity
 @Table(name = "users", indexes = {
-        @Index(columnList = "username", name = "username_idx"),
+        @Index(columnList = "username", name = "username_idx", unique = true),
         @Index(columnList = "email", name = "email_idx")
 })
 public class User {
