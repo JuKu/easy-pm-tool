@@ -2,6 +2,7 @@ package com.jukusoft.pm.tool.def.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jukusoft.pm.tool.def.model.auth.AuthentificationMethod;
+import com.jukusoft.pm.tool.def.utils.HashUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.CreationTimestamp;
@@ -34,6 +35,10 @@ public class User {
     private String passwordHash;
 
     @Size(max = 255)
+    @Column(name = "salt", nullable = true, updatable = true)
+    private String salt;
+
+    @Size(max = 255)
     @Column(name = "email", nullable = false, updatable = true)
     private String email;
 
@@ -45,4 +50,30 @@ public class User {
     @CreationTimestamp
     private Date registered;
 
+    public User (String username, String password, String email) {
+        this.username = username;
+        this.email = email;
+        this.authMethod = AuthentificationMethod.DATABASE;
+
+        this.setPassword(password);
+    }
+
+    /**
+     * default constructor required by spring hibernate
+     */
+    protected User () {
+        //
+    }
+
+    public void setPassword(String passwordHash) {
+        if (this.authMethod != AuthentificationMethod.DATABASE) {
+            throw new IllegalStateException("This user was authentificated by ldap server, so you cannot change password here.");
+        }
+
+        //generate new salt
+        this.salt = HashUtils.generateSalt();
+
+        //hash password
+        this.passwordHash = HashUtils.computePasswordSHAHash(salt + passwordHash);
+    }
 }
