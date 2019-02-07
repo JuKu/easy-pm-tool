@@ -34,6 +34,7 @@ public class User {
     @Column(name = "password_hash", nullable = true, updatable = true)
     private String passwordHash;
 
+    @JsonIgnore
     @Size(max = 255)
     @Column(name = "salt", nullable = true, updatable = true)
     private String salt;
@@ -76,4 +77,5 @@ public class User {
         //hash password
         this.passwordHash = HashUtils.computePasswordSHAHash(salt + passwordHash);
     }
+
 }
