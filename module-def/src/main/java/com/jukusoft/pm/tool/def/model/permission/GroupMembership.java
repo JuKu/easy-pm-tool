@@ -5,6 +5,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
@@ -12,10 +13,12 @@ import java.util.Objects;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Entity
 @Table(name = "group_members", indexes = {
+        @Index(columnList = "group_id", name = "group_id_idx"),
+        @Index(columnList = "user_id", name = "user_id_idx"),
         @Index(columnList = "begins_at", name = "begins_at_idx"),
         @Index(columnList = "ends_at", name = "ends_at_idx")
 })
-public class GroupMembership {
+public class GroupMembership implements Serializable {
 
     @Id
     @ManyToOne

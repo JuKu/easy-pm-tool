@@ -11,9 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import java.util.function.Supplier;
+
 @Configuration
 @Profile("default")
 public class InitialDataImporter implements InitializingBean {
+
+    protected static final String GROUP_ADMIN = "admin";
+    protected static final String GROUP_USERS = "users";
 
     @Autowired
     protected UserDAO userDAO;
@@ -37,11 +42,23 @@ public class InitialDataImporter implements InitializingBean {
         logger.info("{} users found in database", nOfUsersInDB);
 
         if (nOfUsersInDB == 0) {
+            Group adminGroup = groupDAO.findByName(GROUP_ADMIN).orElseGet(() -> {
+                throw new IllegalStateException("admin group doesn't exists!");
+            });
+
+            Group usersGroup = groupDAO.findByName(GROUP_USERS).orElseGet(() -> {
+                throw new IllegalStateException("users group doesn't exists!");
+            });
+
             logger.warn("create default user 'admin' with password 'admin' now.");
 
             User user = new User("admin", "admin", "admin@example.com");
             user.setSuperUser(true);
-            userDAO.save(user);
+            user = userDAO.save(user);
+
+            //add user to default groups
+            adminGroup.addMember(user);
+            usersGroup.addMember(user);
 
             logger.info("{} users found in database after user creation", userDAO.count());
         }
@@ -51,18 +68,18 @@ public class InitialDataImporter implements InitializingBean {
         long nOfGroups = groupDAO.count();
 
         if (nOfGroups == 0) {
-            Group adminGroup = new Group("admin", "Super Administrators", true);
+            Group adminGroup = new Group(GROUP_ADMIN, "Super Administrators", true);
             groupDAO.save(adminGroup);
 
-            Group usersGroup = new Group("users", "Users", true);
+            Group usersGroup = new Group(GROUP_USERS, "Users", true);
             groupDAO.save(usersGroup);
 
             logger.info("{} groups found in database after group creation", groupDAO.count());
         }
 
         //if this 2 statements aren't true, the user has broke his own application, maybe with editing raw data in database
-        assert groupDAO.findByName("admin").isPresent();
-        assert groupDAO.findByName("users").isPresent();
+        assert groupDAO.findByName(GROUP_ADMIN).isPresent();
+        assert groupDAO.findByName(GROUP_USERS).isPresent();
     }
 
 }

@@ -2,6 +2,7 @@ package com.jukusoft.pm.tool.def.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jukusoft.pm.tool.def.model.auth.AuthentificationMethod;
+import com.jukusoft.pm.tool.def.model.permission.GroupMembership;
 import com.jukusoft.pm.tool.def.utils.ByteUtils;
 import com.jukusoft.pm.tool.def.utils.HashUtils;
 import com.jukusoft.pm.tool.def.utils.StringUtils;
@@ -12,7 +13,9 @@ import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -67,6 +70,9 @@ public class User {
     @OneToOne(orphanRemoval = false, optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id")
     protected Person person;
+
+    @OneToMany (mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<GroupMembership> groups = new ArrayList<>();
 
     public User (String username, String password, String email) {
         StringUtils.requireNonEmptyString(username);
