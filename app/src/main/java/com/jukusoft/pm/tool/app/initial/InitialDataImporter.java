@@ -51,10 +51,10 @@ public class InitialDataImporter implements InitializingBean {
         long nOfGroups = groupDAO.count();
 
         if (nOfGroups == 0) {
-            Group adminGroup = new Group("admin", "Super Administrators");
+            Group adminGroup = new Group("admin", "Super Administrators", true);
             groupDAO.save(adminGroup);
 
-            Group usersGroup = new Group("users", "Users");
+            Group usersGroup = new Group("users", "Users", true);
             groupDAO.save(usersGroup);
 
             logger.info("{} groups found in database after group creation", groupDAO.count());

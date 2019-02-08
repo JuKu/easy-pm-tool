@@ -26,13 +26,37 @@ public class Group {
     @Column(name = "title", nullable = false, updatable = true)
     private String title;
 
+    @Column(name = "fixed_name", nullable = false, updatable = true)
+    private boolean fixedName;
+
     public Group(@Size(min = 2, max = 45) String name, @Size(min = 2, max = 45) String title) {
+        this(name, title, false);
+    }
+
+    public Group(@Size(min = 2, max = 45) String name, @Size(min = 2, max = 45) String title, boolean fixedName) {
         this.name = name;
         this.title = title;
+        this.fixedName = fixedName;
     }
 
     protected Group () {
         //
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        if (this.fixedName) {
+            throw new IllegalStateException("Cannot edit a fixed name!");
+        }
+
+        this.name = name;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
 }
