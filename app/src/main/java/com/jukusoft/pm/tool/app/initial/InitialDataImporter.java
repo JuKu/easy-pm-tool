@@ -59,6 +59,10 @@ public class InitialDataImporter implements InitializingBean {
 
             logger.info("{} groups found in database after group creation", groupDAO.count());
         }
+
+        //if this 2 statements aren't true, the user has broke his own application, maybe with editing raw data in database
+        assert groupDAO.findByName("admin").isPresent();
+        assert groupDAO.findByName("users").isPresent();
     }
 
 }
