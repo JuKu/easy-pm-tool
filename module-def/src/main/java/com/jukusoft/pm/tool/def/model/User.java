@@ -2,6 +2,7 @@ package com.jukusoft.pm.tool.def.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jukusoft.pm.tool.def.model.auth.AuthentificationMethod;
+import com.jukusoft.pm.tool.def.utils.ByteUtils;
 import com.jukusoft.pm.tool.def.utils.HashUtils;
 import com.jukusoft.pm.tool.def.utils.StringUtils;
 import org.hibernate.annotations.Cache;
@@ -23,6 +24,9 @@ import java.util.Date;
         @UniqueConstraint(columnNames = "username", name = "username_uqn")
 })
 public class User {
+
+    //flags
+    private static final int FLAG_SUPER_USER = 0;
 
     @Id
     @Column(name = "user_id", nullable = false, updatable = false)
@@ -55,6 +59,16 @@ public class User {
     @CreationTimestamp
     private Date registered;
 
+    //many options in one integer to use less memory
+    @Size(max = 256)
+    @Column(name = "flags", nullable = false, updatable = true)
+    private int flags;
+
+    //@OneToOne(mappedBy = "actor", orphanRemoval = true, optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(orphanRemoval = false, optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "person_id")
+    protected Person person;
+
     public User (String username, String password, String email) {
         StringUtils.requireNonEmptyString(username);
         StringUtils.requireNonEmptyString(password);
@@ -63,6 +77,7 @@ public class User {
         this.username = username;
         this.email = email;
         this.authMethod = AuthentificationMethod.DATABASE;
+        this.flags = 0;
 
         this.setPassword(password);
     }
@@ -112,6 +127,22 @@ public class User {
 
     public AuthentificationMethod getAuthMethod() {
         return authMethod;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public String getDisplayName () {
+        return this.person == null ? this.username : this.person.getFirstName() + " " + this.person.getSurName();
+    }
+
+    public boolean isSuperUser () {
+        return ByteUtils.isBitSet(this.flags, FLAG_SUPER_USER);
+    }
+
+    public void setSuperUser (boolean value) {
+        this.flags = ByteUtils.setBit(this.flags, FLAG_SUPER_USER, value);
     }
 
 }
