@@ -60,7 +60,6 @@ public class User {
     private Date registered;
 
     //many options in one integer to use less memory
-    @Size(max = 256)
     @Column(name = "flags", nullable = false, updatable = true)
     private int flags;
 
