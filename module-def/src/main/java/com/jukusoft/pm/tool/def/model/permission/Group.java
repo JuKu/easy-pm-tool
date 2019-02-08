@@ -32,7 +32,7 @@ public class Group {
     @Column(name = "fixed_name", nullable = false, updatable = true)
     private boolean fixedName;
 
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "group", fetch = FetchType.EAGER)
     private List<GroupMembership> members = new ArrayList<>();
 
     public Group(@Size(min = 2, max = 45) String name, @Size(min = 2, max = 45) String title) {

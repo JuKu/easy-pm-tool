@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import javax.transaction.Transactional;
 import java.util.function.Supplier;
 
 @Configuration
@@ -36,6 +37,7 @@ public class InitialDataImporter implements InitializingBean {
         this.createDefaultUserNoUseExists();
     }
 
+    @Transactional
     protected void createDefaultUserNoUseExists() {
         long nOfUsersInDB = userDAO.count();
 
@@ -64,6 +66,7 @@ public class InitialDataImporter implements InitializingBean {
         }
     }
 
+    @Transactional
     protected void createDefaultGroupsIfNotExists () {
         long nOfGroups = groupDAO.count();
 
