@@ -1,11 +1,14 @@
 package com.jukusoft.pm.tool.def.model.permission;
 
+import com.jukusoft.pm.tool.def.model.User;
 import com.jukusoft.pm.tool.def.utils.ByteUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -28,6 +31,9 @@ public class Group {
 
     @Column(name = "fixed_name", nullable = false, updatable = true)
     private boolean fixedName;
+
+    @OneToMany(mappedBy = "group")
+    private List<GroupMembership> members = new ArrayList<>();
 
     public Group(@Size(min = 2, max = 45) String name, @Size(min = 2, max = 45) String title) {
         this(name, title, false);
@@ -57,6 +63,33 @@ public class Group {
 
     public String getTitle() {
         return title;
+    }
+
+    public List<GroupMembership> listMemberships() {
+        return members;
+    }
+
+    public GroupMembership addMember (User user) {
+        GroupMembership membership = new GroupMembership(this, user);
+        this.members.add(membership);
+
+        return membership;
+    }
+
+    public void removeMember (User user) {
+        this.members.remove(new GroupMembership(this, user));
+    }
+
+    public List<User> listMembers() {
+        List<User> Users = new ArrayList<>();
+
+        for (GroupMembership membership : listMemberships()) {
+            if (membership.isMember()) {
+                Users.add(membership.getUser());
+            }
+        }
+
+        return Users;
     }
 
 }
