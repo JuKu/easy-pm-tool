@@ -18,7 +18,7 @@ import java.util.Objects;
         @Index(columnList = "begins_at", name = "begins_at_idx"),
         @Index(columnList = "ends_at", name = "ends_at_idx")
 })
-@IdClass(GroupMembership.class)
+@IdClass(GroupMembershipPK.class)
 //@Embeddable
 public class GroupMembership implements Serializable {
 
