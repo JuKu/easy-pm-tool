@@ -15,6 +15,6 @@ import java.util.List;
 public interface GroupMembershipDAO extends PagingAndSortingRepository<GroupMembership, Integer> {
 
     //@Query("SELECT m FROM com.jukusoft.pm.tool.def.model.permission.GroupMembership m where m.group = :groupID")
-    List<GroupMembership> findByGroup(@Param("groupID") int groupID);
+    List<GroupMembership> findByGroupID(@Param("groupID") int groupID);
 
 }

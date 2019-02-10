@@ -23,14 +23,14 @@ import java.util.Objects;
 public class GroupMembership implements Serializable {
 
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "group_id", nullable = false, updatable = false)
-    private Group group;
+    private Group groupID;
 
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
-    private User user;
+    private User userID;
 
     @Column(name = "is_leader", nullable = false, updatable = true)
     private boolean isLeader = false;
@@ -49,16 +49,16 @@ public class GroupMembership implements Serializable {
         Objects.requireNonNull(group);
         Objects.requireNonNull(user);
 
-        this.group = group;
-        this.user = user;
+        this.groupID = group;
+        this.userID = user;
     }
 
-    public Group getGroup() {
-        return group;
+    public Group getGroupID() {
+        return groupID;
     }
 
-    public User getUser() {
-        return user;
+    public User getUserID() {
+        return userID;
     }
 
     public boolean isLeader() {
@@ -105,13 +105,13 @@ public class GroupMembership implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GroupMembership that = (GroupMembership) o;
-        return group.equals(that.group) &&
-                user.equals(that.user);
+        return groupID.equals(that.groupID) &&
+                userID.equals(that.userID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(group, user);
+        return Objects.hash(groupID, userID);
     }
 
 }

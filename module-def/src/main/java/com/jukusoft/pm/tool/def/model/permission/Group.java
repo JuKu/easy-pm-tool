@@ -1,7 +1,6 @@
 package com.jukusoft.pm.tool.def.model.permission;
 
 import com.jukusoft.pm.tool.def.model.User;
-import com.jukusoft.pm.tool.def.utils.ByteUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -34,7 +33,7 @@ public class Group implements Serializable {
     @Column(name = "fixed_name", nullable = false, updatable = true)
     private boolean fixedName;
 
-    @OneToMany(mappedBy = "group", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "groupID", fetch = FetchType.EAGER)
     private List<GroupMembership> members = new ArrayList<>();
 
     public Group(@Size(min = 2, max = 45) String name, @Size(min = 2, max = 45) String title) {
@@ -95,7 +94,7 @@ public class Group implements Serializable {
 
         for (GroupMembership membership : listMemberships()) {
             if (membership.isMember()) {
-                Users.add(membership.getUser());
+                Users.add(membership.getUserID());
             }
         }
 

@@ -4,14 +4,15 @@ import com.jukusoft.pm.tool.def.model.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
 public class GroupMembershipPK implements Serializable {
 
-    protected User user;
+    private int groupID;
 
-    protected Group group;
+    private int userID;
 
 }

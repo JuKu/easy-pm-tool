@@ -73,7 +73,7 @@ public class User implements Serializable {
     @JoinColumn(name = "person_id")
     protected Person person;
 
-    @OneToMany (mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany (mappedBy = "userID", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<GroupMembership> groups = new ArrayList<>();
 
     public User (String username, String password, String email) {

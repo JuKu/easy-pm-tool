@@ -1,6 +1,7 @@
 package com.jukusoft.pm.tool.app.initial;
 
 import com.jukusoft.pm.tool.def.dao.GroupDAO;
+import com.jukusoft.pm.tool.def.dao.GroupMembershipDAO;
 import com.jukusoft.pm.tool.def.dao.UserDAO;
 import com.jukusoft.pm.tool.def.model.User;
 import com.jukusoft.pm.tool.def.model.permission.Group;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import javax.transaction.Transactional;
+import java.util.Objects;
 
 @Configuration
 @Profile("default")
@@ -26,6 +28,9 @@ public class InitialDataImporter implements InitializingBean {
 
     @Autowired
     protected GroupDAO groupDAO;
+
+    @Autowired
+    protected GroupMembershipDAO groupMembershipDAO;
 
     protected static final Logger logger = LoggerFactory.getLogger(InitialDataImporter.class);
 
@@ -52,6 +57,9 @@ public class InitialDataImporter implements InitializingBean {
                 throw new IllegalStateException("users group doesn't exists!");
             });
 
+            Objects.requireNonNull(adminGroup);
+            Objects.requireNonNull(usersGroup);
+
             logger.warn("create default user 'admin' with password 'admin' now.");
 
             User user = new User("admin", "admin", "admin@example.com");
@@ -59,11 +67,14 @@ public class InitialDataImporter implements InitializingBean {
             user = userDAO.save(user);
 
             //add user to default groups
-            adminGroup.addMembership(new GroupMembership(adminGroup, user));
-            usersGroup.addMembership(new GroupMembership(usersGroup, user));
+            //adminGroup.addMembership(new GroupMembership(adminGroup, user));
+            //usersGroup.addMembership(new GroupMembership(usersGroup, user));
 
             groupDAO.save(adminGroup);
             groupDAO.save(usersGroup);
+
+            groupMembershipDAO.save(new GroupMembership(usersGroup, user));
+            groupMembershipDAO.save(new GroupMembership(adminGroup, user));
 
             logger.info("{} users found in database after user creation", userDAO.count());
         }
