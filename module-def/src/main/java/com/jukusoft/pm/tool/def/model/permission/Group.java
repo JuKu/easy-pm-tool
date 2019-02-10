@@ -33,7 +33,7 @@ public class Group implements Serializable {
     @Column(name = "fixed_name", nullable = false, updatable = true)
     private boolean fixedName;
 
-    @OneToMany(mappedBy = "groupID", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "groupID", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<GroupMembership> members = new ArrayList<>();
 
     public Group(@Size(min = 2, max = 45) String name, @Size(min = 2, max = 45) String title) {

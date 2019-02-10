@@ -67,14 +67,14 @@ public class InitialDataImporter implements InitializingBean {
             user = userDAO.save(user);
 
             //add user to default groups
-            //adminGroup.addMembership(new GroupMembership(adminGroup, user));
-            //usersGroup.addMembership(new GroupMembership(usersGroup, user));
+            adminGroup.addMembership(new GroupMembership(adminGroup, user));
+            usersGroup.addMembership(new GroupMembership(usersGroup, user));
 
             groupDAO.save(adminGroup);
             groupDAO.save(usersGroup);
 
-            groupMembershipDAO.save(new GroupMembership(usersGroup, user));
-            groupMembershipDAO.save(new GroupMembership(adminGroup, user));
+            //groupMembershipDAO.save(new GroupMembership(usersGroup, user));
+            //groupMembershipDAO.save(new GroupMembership(adminGroup, user));
 
             logger.info("{} users found in database after user creation", userDAO.count());
         }
