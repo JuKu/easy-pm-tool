@@ -27,7 +27,7 @@ import java.util.List;
 }, uniqueConstraints = {
         @UniqueConstraint(columnNames = "username", name = "username_uqn")
 })
-@IdClass(GroupMembership.class)
+//@IdClass(GroupMembership.class)
 public class User implements Serializable {
 
     //flags

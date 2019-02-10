@@ -15,7 +15,7 @@ import java.util.List;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Entity
 @Table(name = "groups")
-@IdClass(GroupMembership.class)
+//@IdClass(GroupMembership.class)
 public class Group implements Serializable {
 
     @Id
