@@ -13,6 +13,7 @@ import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,7 +27,8 @@ import java.util.List;
 }, uniqueConstraints = {
         @UniqueConstraint(columnNames = "username", name = "username_uqn")
 })
-public class User {
+@IdClass(GroupMembership.class)
+public class User implements Serializable {
 
     //flags
     private static final int FLAG_SUPER_USER = 0;

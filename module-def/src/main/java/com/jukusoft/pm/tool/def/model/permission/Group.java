@@ -7,6 +7,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,8 @@ import java.util.List;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Entity
 @Table(name = "groups")
-public class Group {
+@IdClass(GroupMembership.class)
+public class Group implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +51,10 @@ public class Group {
         //
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
@@ -69,7 +75,7 @@ public class Group {
         return members;
     }
 
-    public GroupMembership addMember (User user) {
+    /*public GroupMembership addMember (User user) {
         GroupMembership membership = new GroupMembership(this, user);
         this.members.add(membership);
 
@@ -78,6 +84,10 @@ public class Group {
 
     public void removeMember (User user) {
         this.members.remove(new GroupMembership(this, user));
+    }*/
+
+    public void addMembership (GroupMembership membership) {
+        this.members.add(membership);
     }
 
     public List<User> listMembers() {

@@ -4,6 +4,7 @@ import com.jukusoft.pm.tool.def.dao.GroupDAO;
 import com.jukusoft.pm.tool.def.dao.UserDAO;
 import com.jukusoft.pm.tool.def.model.User;
 import com.jukusoft.pm.tool.def.model.permission.Group;
+import com.jukusoft.pm.tool.def.model.permission.GroupMembership;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -12,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import javax.transaction.Transactional;
-import java.util.function.Supplier;
 
 @Configuration
 @Profile("default")
@@ -59,8 +59,11 @@ public class InitialDataImporter implements InitializingBean {
             user = userDAO.save(user);
 
             //add user to default groups
-            adminGroup.addMember(user);
-            usersGroup.addMember(user);
+            adminGroup.addMembership(new GroupMembership(adminGroup, user));
+            usersGroup.addMembership(new GroupMembership(usersGroup, user));
+
+            groupDAO.save(adminGroup);
+            groupDAO.save(usersGroup);
 
             logger.info("{} users found in database after user creation", userDAO.count());
         }
