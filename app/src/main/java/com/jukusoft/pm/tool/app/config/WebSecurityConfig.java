@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 //allow access to / and /login to any user (also unauthentificated ones)
-                .antMatchers("/", "/login", "/test", "/actuator", "/actuator/*", "/files/public/**", "/res/public/**", "/errors/*", "/error", "/test2")
+                .antMatchers("/", "/login", "/test", "/actuator", "/actuator/*", "/files/public/**", "/res/public/**", "/errors/*", "/error", "/favicon.ico", "/favicon*", "/test1", "/test2")
                 .permitAll()
                 //lock out any unauthentificated users from any other page
                 .anyRequest()

@@ -80,6 +80,8 @@
 
 		<lombok.version>1.16.16</lombok.version>
 
+		<mustache.java.version>0.9.6</mustache.java.version>
+
 		<!-- Sonar properties-->
 		<sonar.jacoco.itReportPath>${project.basedir}/../target/jacoco-it.exec</sonar.jacoco.itReportPath>
 		<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>

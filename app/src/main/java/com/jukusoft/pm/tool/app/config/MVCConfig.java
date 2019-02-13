@@ -1,7 +1,6 @@
 package com.jukusoft.pm.tool.app.config;
 
 import com.jukusoft.pm.tool.def.config.Config;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.resource.EncodedResourceResolver;
+import org.springframework.web.servlet.view.mustache.java.LocalizationMessageInterceptor;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -27,6 +27,9 @@ public class MVCConfig implements WebMvcConfigurer {
 
     /*@Autowired
     CsrfTokenInterceptor csrfTokenInterceptor;*/
+
+    //@Autowired
+    //private MessageSource messageSource;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -74,11 +77,19 @@ public class MVCConfig implements WebMvcConfigurer {
     /*@Bean
     public Mustache.Compiler mustacheCompiler(
             Mustache.TemplateLoader templateLoader,
-            Environment environment) {
+            Environment environment, HttpServletRequest request) {
 
         MustacheEnvironmentCollector collector
                 = new MustacheEnvironmentCollector();
         collector.setEnvironment(environment);
+
+        Mustache.Lambda i18n = new Mustache.Lambda() {
+            public void execute (Template.Fragment frag, Writer out) throws IOException {
+                String key = frag.execute();
+                String text = messageSource().getMessage(key, new Object[0], localeResolver().)// look up key in i18n system
+                        out.write(text);
+            }
+        };
 
         return Mustache.compiler()
                 .defaultValue("Some Default Value")
@@ -91,6 +102,10 @@ public class MVCConfig implements WebMvcConfigurer {
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("lang");
         registry.addInterceptor(localeChangeInterceptor);
+
+        //i18n
+        registry.addInterceptor(i18nMessageInterceptor());
+        //registry.addInterceptor(i18nMessageInterceptor1());
     }
 
     @Bean
@@ -114,6 +129,27 @@ public class MVCConfig implements WebMvcConfigurer {
         messageSource.setDefaultEncoding("UTF-8");
         messageSource.setCacheSeconds(0);
         return messageSource;
+    }
+
+    /**
+    * mustache.java
+    */
+    /*@Bean
+    public org.springframework.web.servlet.view.mustache.java.LocalizationMessageInterceptor i18nMessageInterceptor1() {
+        LocalizationMessageInterceptor lmi = new LocalizationMessageInterceptor();
+        lmi.setLocaleResolver(localeResolver());
+        lmi.setMessageSource(messageSource());
+        lmi.setMessageKey("i18n");
+        return lmi;
+    }*/
+
+    @Bean
+    public org.springframework.web.servlet.view.mustache.jmustache.LocalizationMessageInterceptor i18nMessageInterceptor () {
+        org.springframework.web.servlet.view.mustache.jmustache.LocalizationMessageInterceptor lmi = new org.springframework.web.servlet.view.mustache.jmustache.LocalizationMessageInterceptor();
+        lmi.setLocaleResolver(localeResolver());
+        lmi.setMessageSource(messageSource());
+        lmi.setMessageKey("i18n");
+        return lmi;
     }
 
 }

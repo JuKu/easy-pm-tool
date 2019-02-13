@@ -74,6 +74,33 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.connector.version}</version>
 		</dependency>
+
+		<!-- mustache-spring-view is needed because of org.springframework.web.servlet.view.mustache.jmustache.LocalizationMessageInterceptor, see also https://stackoverflow.com/questions/39138314/spring-mustache-starter-translations -->
+		<dependency>
+			<groupId>com.github.sps.mustache</groupId>
+			<artifactId>mustache-spring-view</artifactId>
+			<version>1.3</version>
+		</dependency>
+
+		<!-- <dependency>
+			<groupId>com.github.sps.mustache</groupId>
+			<artifactId>mustache-spring-view</artifactId>
+			<version>1.3</version>
+		</dependency> -->
+
+		<!-- jmustache -->
+		<dependency>
+			<groupId>com.samskivert</groupId>
+			<artifactId>jmustache</artifactId>
+			<version>${jmustache.version}</version>
+		</dependency>
+
+		<!-- mustache.java -->
+		<!-- <dependency>
+			<groupId>com.github.spullara.mustache.java</groupId>
+			<artifactId>compiler</artifactId>
+			<version>${mustache.java.version}</version>
+		</dependency> -->
 	</dependencies>
 
 	<build>
