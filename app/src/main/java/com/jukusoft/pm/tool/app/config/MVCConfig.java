@@ -14,7 +14,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.resource.EncodedResourceResolver;
-import org.springframework.web.servlet.view.mustache.java.LocalizationMessageInterceptor;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -59,22 +58,6 @@ public class MVCConfig implements WebMvcConfigurer {
     }*/
 
     /*@Bean
-    public ViewResolver internalResourceViewResolver() {
-        InternalResourceViewResolver bean = new InternalResourceViewResolver();
-        //bean.setViewClass(JstlView.class);
-        bean.setPrefix("/views/");
-        bean.setSuffix(".html");
-        return bean;
-    }
-
-    @Bean
-    public ViewResolver resourceBundleViewResolver() {
-        ResourceBundleViewResolver bean = new ResourceBundleViewResolver();
-        bean.setBasename("views");
-        return bean;
-    }*/
-
-    /*@Bean
     public Mustache.Compiler mustacheCompiler(
             Mustache.TemplateLoader templateLoader,
             Environment environment, HttpServletRequest request) {
@@ -105,7 +88,6 @@ public class MVCConfig implements WebMvcConfigurer {
 
         //i18n
         registry.addInterceptor(i18nMessageInterceptor());
-        //registry.addInterceptor(i18nMessageInterceptor1());
     }
 
     @Bean
