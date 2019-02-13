@@ -25,16 +25,16 @@
 					<div class="login-form">
 						{{#is_error}}
 							<div class="control-group alert alert-primary alert-danger" role="alert">
-								Invalid credentials</div>
+								{{#i18n}}login.invalid.credentials{{/i18n}}</div>
 						{{/is_error}}
 
 						<div class="control-group">
-							<input type="text" name="username" class="login-field" value="" placeholder="username" id="login-name">
+							<input type="text" name="username" class="login-field" value="" placeholder="{{#i18n}}username{{/i18n}}" id="login-name">
 							<label class="login-field-icon fui-user" for="login-name"></label>
 						</div>
 
 						<div class="control-group">
-							<input type="password" name="password" class="login-field" value="" placeholder="password" id="login-pass">
+							<input type="password" name="password" class="login-field" value="" placeholder="{{#i18n}}password{{/i18n}}" id="login-pass">
 							<label class="login-field-icon fui-lock" for="login-pass"></label>
 						</div>
 

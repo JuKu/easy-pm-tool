@@ -97,7 +97,7 @@ public class MVCConfig implements WebMvcConfigurer {
         CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
 
         //By default, the locale resolver will obtain the locale code from the HTTP header. To force a default locale, we need to set it on the localeResolver():
-        cookieLocaleResolver.setDefaultLocale(Locale.ENGLISH);
+        //cookieLocaleResolver.setDefaultLocale(Locale.ENGLISH);
 
         return cookieLocaleResolver;
     }
