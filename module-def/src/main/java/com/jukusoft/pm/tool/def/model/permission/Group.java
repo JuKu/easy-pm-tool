@@ -8,13 +8,14 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Entity
 @Table(name = "groups")
-//@IdClass(GroupMembership.class)
 public class Group implements Serializable {
 
     @Id
@@ -35,6 +36,13 @@ public class Group implements Serializable {
 
     @OneToMany(mappedBy = "groupID", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<GroupMembership> members = new ArrayList<>();
+
+    @ElementCollection(targetClass=String.class)
+    @JoinTable(name = "group_permissions",
+            joinColumns = @JoinColumn(name = "group_id"))
+    @MapKeyColumn(name = "token")
+    @Column(name = "value")
+    private Set<Permission> permissions;
 
     public Group(@Size(min = 2, max = 45) String name, @Size(min = 2, max = 45) String title) {
         this(name, title, false);
@@ -101,4 +109,7 @@ public class Group implements Serializable {
         return Users;
     }
 
+    public Collection<Permission> listPermissions() {
+        return permissions;
+    }
 }

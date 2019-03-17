@@ -53,7 +53,7 @@ public class GroupMembership implements Serializable {
         this.userID = user;
     }
 
-    public Group getGroupID() {
+    public Group getGroup() {
         return groupID;
     }
 

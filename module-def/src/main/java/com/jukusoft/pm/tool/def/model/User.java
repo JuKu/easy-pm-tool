@@ -152,4 +152,8 @@ public class User implements Serializable {
         this.flags = ByteUtils.setBit(this.flags, FLAG_SUPER_USER, value);
     }
 
+    public List<GroupMembership> listGroups() {
+        return groups;
+    }
+
 }
